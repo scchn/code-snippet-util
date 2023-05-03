@@ -33,7 +33,7 @@ extension App {
         @Argument(help: "GitHub repo name")
         var repo: String
         
-        @Argument(help: "Folder name")
+        @Option(help: "Folder path")
         var folder: String?
         
         func run() async throws {

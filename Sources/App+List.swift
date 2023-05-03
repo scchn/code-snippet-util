@@ -20,10 +20,10 @@ extension App {
         @Argument(help: "GitHub repo name")
         var repo: String
         
-        @Argument(help: "Folder name")
+        @Option(help: "Folder path")
         var folder: String?
         
-        @Flag(name: .shortAndLong, help: "Code snippet details")
+        @Flag(help: "Code snippet details")
         var detail: Bool = false
         
         func run() async throws {
