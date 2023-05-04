@@ -5,7 +5,7 @@ import ArgumentParser
 struct App: AsyncParsableCommand {
     
     static var configuration = CommandConfiguration(
-        commandName: "csu",
+        commandName: "csdl",
         abstract: "Code Snippet Util",
         subcommands: [Update.self, List.self]
     )

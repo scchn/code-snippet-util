@@ -11,7 +11,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "csu",
+            name: "csdl",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
             ],

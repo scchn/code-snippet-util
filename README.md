@@ -7,13 +7,13 @@ Download Xcode code snippets from GitHub repo.
 Command:
 
 ```
-$ csu list <user> <repo> [--folder <folder>] [--detail]
+$ csdl list <user> <repo> [--folder <folder>] [--detail]
 ```
 
 Example:
 
 ```
-$ swift run csu list scchn code-snippets --detail
+$ swift run csdl list scchn code-snippets --detail
 
 💠 Fetching file list...
 
@@ -39,13 +39,13 @@ $ swift run csu list scchn code-snippets --detail
 Command:
 
 ```
-$ csu update <user> <repo> [--folder <folder>]
+$ csdl update <user> <repo> [--folder <folder>]
 ```
 
 Example:
 
 ```
-$ swift run csu update scchn code-snippets
+$ swift run csdl update scchn code-snippets
 
 💠 Fetching file list...
 
