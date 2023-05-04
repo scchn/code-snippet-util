@@ -24,7 +24,7 @@ extension App {
         var folder: String?
         
         @Flag(help: "Code snippet details")
-        var detail: Bool = false
+        var details: Bool = false
         
         func run() async throws {
             try await listRemoteCodeSnippets()
@@ -44,7 +44,7 @@ extension App {
             print("🤩 Found \(files.count) file\(files.count > 1 ? "s" : "").")
             
             for (index, file) in files.enumerated() {
-                if detail {
+                if details {
                     print()
                     print("[\(index + 1)] \(file.name)")
                     
