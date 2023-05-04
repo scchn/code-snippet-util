@@ -25,7 +25,7 @@ enum GitHubAPIError: LocalizedError {
 
 enum GitHubAPI {
     
-    private static func fetchData<Target, Decoder>(url: URL, decoder: Decoder) async throws -> Target
+    private static func fetch<Target, Decoder>(_ type: Target.Type, from url: URL, decoder: Decoder) async throws -> Target
     where Target: Decodable, Decoder: TopLevelDecoder, Decoder.Input == Data {
         let request = URLRequest(url: url)
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -46,16 +46,9 @@ enum GitHubAPI {
     static func fetchFileList(user: String, repo: String, folder: String? = nil) async throws -> [GitHubFile] {
         let url = URL(string: "https://api.github.com/repos/\(user)/\(repo)/contents")!
             .appending(component: folder ?? "")
-        let files: [GitHubFile] = try await fetchData(url: url, decoder: JSONDecoder())
         
-        return files
-            .filter { file in
-                guard let url = file.downloadURL else {
-                    return false
-                }
-                
-                return UTType(filenameExtension: url.pathExtension) == .codeSnippet
-            }
+        return try await fetch([GitHubFile].self, from: url, decoder: JSONDecoder())
+            .filter { $0.downloadURL?.pathExtension == "codesnippet" }
     }
     
     static func fetchCodeSnippet(from file: GitHubFile) async throws -> CodeSnippet {
@@ -63,7 +56,7 @@ enum GitHubAPI {
             throw GitHubAPIError.invalidFile
         }
         
-        return try await fetchData(url: url, decoder: PropertyListDecoder())
+        return try await fetch(CodeSnippet.self, from: url, decoder: PropertyListDecoder())
     }
     
 }
