@@ -27,10 +27,6 @@ extension App {
         var details: Bool = false
         
         func run() async throws {
-            try await listRemoteCodeSnippets()
-        }
-        
-        private func listRemoteCodeSnippets() async throws {
             print("💠 Fetching file list...")
             print()
             

@@ -29,25 +29,10 @@ struct CodeSnippetUtil {
     }
     
     func checkCodeSnippetsDir() -> Bool {
-        FileManager.default.fileExists(atPath: codeSnippetsDirURL.path())
-    }
-    
-    func codeSnippets() -> [(URL, CodeSnippet)] {
-        let enumerator = FileManager.default.enumerator(at: codeSnippetsDirURL, includingPropertiesForKeys: nil)
-        let urls = (enumerator?.allObjects as? [URL] ?? [])
-            .filter { url in
-                UTType(filenameExtension: url.pathExtension) == .codeSnippet
-            }
+        let found = FileManager.default.fileExists(atPath: codeSnippetsDirURL.path())
+        let isDir = (try? codeSnippetsDirURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
         
-        return urls
-            .compactMap { url -> (URL, CodeSnippet)? in
-                guard let data = try? Data(contentsOf: url),
-                      let codeSnippet = try? PropertyListDecoder().decode(CodeSnippet.self, from: data)
-                else {
-                    return nil
-                }
-                return (url, codeSnippet)
-            }
+        return found && isDir
     }
     
     func update(fileName: String, codeSnippet: CodeSnippet) throws -> (URL, UpdateResult) {

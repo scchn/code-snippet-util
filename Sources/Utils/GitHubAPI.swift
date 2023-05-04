@@ -11,14 +11,12 @@ import UniformTypeIdentifiers
 
 enum GitHubAPIError: LocalizedError {
     case decodingError
-    case noSuchFile
     case invalidFile
     case unknown
     
     var errorDescription: String? {
         switch self {
         case .decodingError: return "Error decoding data."
-        case .noSuchFile:    return "Invalid user, repo or file name."
         case .invalidFile:   return "Invalid file."
         case .unknown:       return "Unknown"
         }
@@ -58,19 +56,6 @@ enum GitHubAPI {
                 
                 return UTType(filenameExtension: url.pathExtension) == .codeSnippet
             }
-    }
-    
-    static func fetchFile(user: String, repo: String, file: String) async throws -> GitHubFile {
-        let url = URL(string: "https://api.github.com/repos/\(user)/\(repo)/contents")!
-            .appending(component: file)
-        let file: GitHubFile = try await fetchData(url: url, decoder: JSONDecoder())
-        let utType = UTType(filenameExtension: url.pathExtension)
-        
-        guard utType == .codeSnippet else {
-            throw GitHubAPIError.noSuchFile
-        }
-        
-        return file
     }
     
     static func fetchCodeSnippet(from file: GitHubFile) async throws -> CodeSnippet {
